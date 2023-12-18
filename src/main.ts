@@ -8,6 +8,8 @@ async function bootstrap() {
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Block list')
     .build()
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }
