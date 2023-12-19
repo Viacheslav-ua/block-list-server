@@ -15,4 +15,42 @@ model User {
   email String @unique
   hash String
   salt String
+
+  blockList BlockList?
+  account Account?
+}
+
+model Account {
+  id Int @id @default(autoincrement())
+
+  ownerId Int @unique
+  owner User @relation(fields: [ownerId], references: [id])
+
+  isBlockingEnabled Boolean
+}
+
+model BlockList {
+  id Int @id @default(autoincrement())
+
+  ownerId Int @unique
+  owner User @relation(fields: [ownerId], references: [id])
+
+
+  items BlockItem[]
+}
+
+model BlockItem {
+  id Int @id @default(autoincrement())
+
+  blockListId Int
+  owner BlockList @relation(fields: [blockListId], references: [id])
+
+  type BlockItemType
+  data String
+  createdAt DateTime @default(now())
+}
+
+enum BlockItemType {
+  Website
+  KeyWord
 }
